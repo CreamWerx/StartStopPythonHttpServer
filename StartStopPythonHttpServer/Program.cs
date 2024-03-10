@@ -10,13 +10,6 @@ if (args.Any())
     workingDirectory = args[0]; 
 }
 
-psi = new ProcessStartInfo
-{
-    FileName = "py",
-    Arguments = "-m http.server 8000",
-    WorkingDirectory = workingDirectory
-};
-
 while (true)
 {
     Console.Clear();
@@ -25,11 +18,16 @@ while (true)
     Console.WriteLine();
     if (key.Key == ConsoleKey.Spacebar)
     {
-        if (psi != null)
+        psi = new ProcessStartInfo
         {
-            _ = Task.Run(() => Start());
-            Console.WriteLine("Running");
-        }
+            FileName = "py",
+            Arguments = "-m http.server 8000",
+            WorkingDirectory = workingDirectory
+        };
+
+        _ = Task.Run(() => Start());
+        Console.WriteLine("Running");
+
     }
     else if (key.Key == ConsoleKey.Escape)
     {
@@ -88,7 +86,7 @@ void Stop()
 
 void DisplayPotentialservedJolder()
 {
-    Console.Write($"Curently assigned folder to serve : ");
+    Console.Write($"Currently assigned folder to serve : ");
     Console.ForegroundColor = ConsoleColor.Yellow;
     Console.WriteLine(workingDirectory);
     Console.ForegroundColor = ConsoleColor.White;
@@ -99,14 +97,12 @@ void DisplayOptions()
 {
     DisplayPotentialservedJolder();
     Console.ForegroundColor = ConsoleColor.Green;
-    Console.WriteLine("Space bar to start server.");
-    Console.WriteLine("Esc to exit.");
-    Console.WriteLine("Pp to change folder.");
+    Console.WriteLine("    Space bar to start server.");
+    Console.WriteLine("    Esc to exit.");
+    Console.WriteLine("    Pp to change folder.");
     Console.ForegroundColor = ConsoleColor.White;
     Console.WriteLine();
 }
 
-
-
-
 //py -m http.server 8000
+//yt-dlp -f mp4 http://localhost:8000/Movies/RedNotice/RedNotice.mp4
