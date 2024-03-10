@@ -10,6 +10,13 @@ if (args.Any())
     workingDirectory = args[0]; 
 }
 
+psi = new ProcessStartInfo
+{
+    FileName = "py",
+    Arguments = "-m http.server 8000",
+    WorkingDirectory = workingDirectory
+};
+
 Console.WriteLine(workingDirectory);
 
 while (true)
@@ -18,23 +25,23 @@ while (true)
     key = Console.ReadKey();
     if (key.Key == ConsoleKey.Spacebar)
     {
-        psi = new ProcessStartInfo
+        if (psi != null)
         {
-            FileName = "py",
-            Arguments = "-m http.server 8000",
-            WorkingDirectory = workingDirectory
-        };
+            _ = Task.Run(() => Start());
+            Console.WriteLine("Running");
+        }
     }
     else if (key.Key == ConsoleKey.Escape)
     {
         Console.Clear();
         break;
     }
-    if (psi != null)
+    else
     {
-        _ = Task.Run(() => Start());
-        Console.WriteLine("Running");
+        Console.WriteLine($"{key.Key} has no purpose here.");
+        continue;
     }
+    
     Console.WriteLine("Press Space bar to stop server");
     key = Console.ReadKey();
     if (key.Key == ConsoleKey.Spacebar)
