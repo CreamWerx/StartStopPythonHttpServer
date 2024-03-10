@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "StartStopPythonHttpServer": {
+      "commandName": "Project"
+    }
+  }
+}

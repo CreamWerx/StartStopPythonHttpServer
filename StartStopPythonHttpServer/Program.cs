@@ -3,6 +3,15 @@ using System.Diagnostics;
 ProcessStartInfo? psi = null;
 Process? exe = null;
 ConsoleKeyInfo key = new();
+string workingDirectory = Environment.GetFolderPath( Environment.SpecialFolder.MyVideos);
+if (args.Any())
+{
+    //path to serve was passed via command line
+    workingDirectory = args[0]; 
+}
+
+Console.WriteLine(workingDirectory);
+
 while (true)
 {
     Console.WriteLine("Press Space bar to start server. Esc to exit.");
@@ -13,7 +22,7 @@ while (true)
         {
             FileName = "py",
             Arguments = "-m http.server 8000",
-            WorkingDirectory = @"path\to\folder\you\want\to\serve"
+            WorkingDirectory = workingDirectory
         };
     }
     else if (key.Key == ConsoleKey.Escape)
@@ -47,3 +56,8 @@ void Stop()
     exe?.Kill();
     Console.WriteLine("Stopped");
 }
+
+
+
+
+//py -m http.server 8000
