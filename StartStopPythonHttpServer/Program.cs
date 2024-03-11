@@ -1,13 +1,19 @@
 ﻿using Microsoft.VisualBasic;
 using System.Diagnostics;
+
+string workingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+SetTitle(false);
 ProcessStartInfo? psi = null;
 Process? exe = null;
 ConsoleKeyInfo key = new();
-string workingDirectory = Environment.GetFolderPath( Environment.SpecialFolder.MyVideos);
+
 if (args.Any())
 {
     //path to serve was passed via command line
-    workingDirectory = args[0]; 
+    if (Directory.Exists(args[0]))
+    {
+        workingDirectory = args[0]; 
+    } 
 }
 
 while (true)
@@ -27,7 +33,7 @@ while (true)
 
         _ = Task.Run(() => Start());
         Console.WriteLine("Running");
-
+        SetTitle(true);
     }
     else if (key.Key == ConsoleKey.Escape)
     {
@@ -82,6 +88,7 @@ void Stop()
 {
     exe?.Kill();
     Console.WriteLine("Stopped");
+    SetTitle(false);
 }
 
 void DisplayPotentialservedJolder()
@@ -102,6 +109,16 @@ void DisplayOptions()
     Console.WriteLine("    Pp to change folder.");
     Console.ForegroundColor = ConsoleColor.White;
     Console.WriteLine();
+}
+
+void SetTitle(bool running)
+{
+    if (!running)
+    {
+        Console.Title = "Stopped"; 
+        return;
+    }
+    Console.Title = $"Serving: {workingDirectory}";
 }
 
 //py -m http.server 8000
