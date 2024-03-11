@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 string workingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
 SetTitle(false);
@@ -32,7 +31,6 @@ while (true)
         };
 
         _ = Task.Run(() => Start());
-        Console.WriteLine("Running");
         SetTitle(true);
     }
     else if (key.Key == ConsoleKey.Escape)
@@ -51,14 +49,22 @@ while (true)
         continue;
     }
 
-    Console.WriteLine("Press Space bar to stop server");
-    key = Console.ReadKey();
-    Console.WriteLine();
-    if (key.Key == ConsoleKey.Spacebar)
+    
+    while (true)
     {
-        Stop();
+        Console.WriteLine("Press Space bar to stop server");
+        key = Console.ReadKey();
+        Console.WriteLine();
+        if (key.Key == ConsoleKey.Spacebar)
+        {
+            Stop();
+            break;
+        }
+        Console.Clear();
     }
 }
+
+Environment.Exit(0);
 
 void ChangeServerFolder()
 {
@@ -81,7 +87,6 @@ Environment.Exit(0);
 void Start()
 {
     exe = Process.Start(psi);
-    
 }
 
 void Stop()
